@@ -7,7 +7,7 @@ import time
 import logging
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
-from reconocimiento import SistemaReconocimientoFacial
+from reconocimiento import SistemaReconocimientoFacial  # ✅ Corrección aquí
 
 # Configurar logging
 logging.basicConfig(level=logging.INFO)
@@ -19,6 +19,7 @@ app = FastAPI(
     description="API optimizada para Render sin GPU"
 )
 
+# Configurar CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -27,15 +28,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Variables globales
 imagen_referencia = 'my_face.jpg'
 sistema = None
 executor = ThreadPoolExecutor(max_workers=2)
 
+# Inicializar sistema
 async def inicializar_sistema():
     global sistema
     try:
         sistema = SistemaReconocimientoFacial(imagen_referencia)
-        logger.info("✅ Sistema inicializado correctamente")
+        logger.info("✅ Sistema de reconocimiento inicializado correctamente")
         return True
     except Exception as e:
         logger.error(f"❌ Error al inicializar sistema: {e}")
